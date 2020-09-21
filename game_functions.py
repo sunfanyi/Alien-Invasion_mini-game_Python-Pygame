@@ -31,16 +31,13 @@ def check_play_button(settings,stats,sb,screen,ship,bullets,aliens,
 def start_game(settings,stats,sb,screen,ship,bullets,aliens):
 		#隐藏鼠标
 		pygame.mouse.set_visible(False)
-		
 		#Reset everything
 		settings.initialize_dynamic_settings()
 		stats.reset_stats()
 		aliens.empty()
 		bullets.empty()
 		#更新初始化后的数值
-		sb.prep_score()
-		sb.prep_level()
-		sb.prep_ships()
+		sb.prep_images()
 		create_fleet(settings,screen,ship,aliens)
 		ship.center_ship()
 		
@@ -170,26 +167,29 @@ def check_bullet_ailen_collisions(settings,stats,sb,screen,ship,bullets,
 			sb.prep_score()
 		check_highest_score(stats,sb)
 	if len(aliens) == 0:
-		settings.increase_speed()
-		stats.level += 1
-		sb.prep_level()
-		bullets.empty()
-		create_fleet(settings,screen,ship,aliens)
-
+		start_new_level(settings,stats,sb,screen,ship,bullets,aliens)
+			
 def check_highest_score(stats,sb):
 	if stats.score > stats.highest_score:
 		stats.highest_score = stats.score
 		sb.prep_highest_score()
 		stats.break_record = True
-		
+	
+def start_new_level(settings,stats,sb,screen,ship,bullets,aliens):
+	settings.increase_speed()
+	stats.level += 1
+	sb.prep_level()
+	bullets.empty()
+	create_fleet(settings,screen,ship,aliens)
 
 
 
 def update_aliens(settings,stats,sb,screen,ship,bullets,aliens):
 	check_fleet_edge(settings,aliens)
 	aliens.update()
-	#ÈçÃ»ÓÐÅö×²£¬return None£¬ÈçÅö×²£¬returnÅö×²µÄÍâÐÇÈË
+	#如果没有碰撞return None，如果有则return此alien
 	if pygame.sprite.spritecollideany(ship,aliens):
+		print(pygame.sprite.spritecollideany(ship,aliens))
 		ship_hit(settings,stats,sb,screen,ship,bullets,aliens)
 	check_aliens_bottom(settings,stats,sb,screen,ship,bullets,aliens)
 	
