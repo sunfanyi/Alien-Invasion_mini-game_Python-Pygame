@@ -33,10 +33,10 @@ class Ship(Sprite):
 		if self.moving_left and self.rect.left >= 0:
 			self.x -= self.settings.ship_speed_factor
 		if self.moving_up and self.rect.top >= 0:
-			self.y -= self.settings.ship_speed_factor
+			self.y -= self.settings.ship_speed_factor*2/3
 		if self.moving_down and (self.rect.bottom <= 
 				self.screen_rect.bottom):
-			self.y += self.settings.ship_speed_factor
+			self.y += self.settings.ship_speed_factor*2/3
 		
 	def relocate_ship(self):
 		self.x = self.screen_rect.centerx

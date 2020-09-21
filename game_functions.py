@@ -47,7 +47,15 @@ def check_keydown_event(event,settings,stats,sb,screen,ship,bullets,
 		aliens):
 	if event.key == pygame.K_q:
 		quit_game(stats)
-	elif event.key == pygame.K_RIGHT:
+	elif event.key == pygame.K_p:
+		start_game(settings,stats,sb,screen,ship,bullets,aliens)
+	elif event.key == pygame.K_SPACE and stats.game_active:
+		fire_bullet(settings,screen,ship,bullets)
+	else:
+		check_ship_moving(event,ship)
+
+def check_ship_moving(event,ship):
+	if event.key == pygame.K_RIGHT:
 		ship.moving_right = True
 	elif event.key == pygame.K_LEFT:
 		ship.moving_left = True
@@ -56,11 +64,6 @@ def check_keydown_event(event,settings,stats,sb,screen,ship,bullets,
 	elif event.key == pygame.K_DOWN:
 		ship.moving_down = True
 		
-	elif event.key == pygame.K_SPACE and stats.game_active:
-		fire_bullet(settings,screen,ship,bullets)
-	elif event.key == pygame.K_p:
-		start_game(settings,stats,sb,screen,ship,bullets,aliens)
-
 def fire_bullet(settings,screen,ship,bullets):
 	if len(bullets) < settings.bullets_allowed:
 		new_bullet = Bullet(settings,screen,ship)
@@ -190,6 +193,7 @@ def start_new_level(settings,stats,sb,screen,ship,bullets,aliens):
 	sb.prep_level()
 	bullets.empty()
 	
+	ship.relocate_ship()
 	create_fleet(settings,screen,ship,aliens)
 
 
