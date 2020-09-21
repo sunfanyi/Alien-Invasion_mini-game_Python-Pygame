@@ -18,7 +18,7 @@ class Alien(Sprite):
 		self.x += (self.settings.alien_speed_factor * 
 			self.settings.fleet_direction)
 		self.rect.x = self.x
-		# self.rect.y += self.settings.alien_speed_factor/2
+		# self.rect.y += self.settings.alien_speed_factor
 	
 	def check_edge(self):
 		screen_rect = self.screen.get_rect()

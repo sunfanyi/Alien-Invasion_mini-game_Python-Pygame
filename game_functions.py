@@ -38,8 +38,8 @@ def start_game(settings,stats,sb,screen,ship,bullets,aliens):
 		bullets.empty()
 		#更新初始化后的数值
 		sb.prep_images()
+		ship.relocate_ship()
 		create_fleet(settings,screen,ship,aliens)
-		ship.center_ship()
 		
 		stats.game_active = True	
 		
@@ -51,6 +51,11 @@ def check_keydown_event(event,settings,stats,sb,screen,ship,bullets,
 		ship.moving_right = True
 	elif event.key == pygame.K_LEFT:
 		ship.moving_left = True
+	elif event.key == pygame.K_UP:
+		ship.moving_up = True
+	elif event.key == pygame.K_DOWN:
+		ship.moving_down = True
+		
 	elif event.key == pygame.K_SPACE and stats.game_active:
 		fire_bullet(settings,screen,ship,bullets)
 	elif event.key == pygame.K_p:
@@ -67,6 +72,10 @@ def check_keyup_event(event,ship):
 		ship.moving_right = False
 	elif event.key == pygame.K_LEFT:
 		ship.moving_left = False
+	elif event.key == pygame.K_UP:
+		ship.moving_up = False
+	elif event.key == pygame.K_DOWN:
+		ship.moving_down = False		
 		
 
 def quit_game(stats):
@@ -180,6 +189,7 @@ def start_new_level(settings,stats,sb,screen,ship,bullets,aliens):
 	stats.level += 1
 	sb.prep_level()
 	bullets.empty()
+	
 	create_fleet(settings,screen,ship,aliens)
 
 
@@ -189,7 +199,6 @@ def update_aliens(settings,stats,sb,screen,ship,bullets,aliens):
 	aliens.update()
 	#如果没有碰撞return None，如果有则return此alien
 	if pygame.sprite.spritecollideany(ship,aliens):
-		print(pygame.sprite.spritecollideany(ship,aliens))
 		ship_hit(settings,stats,sb,screen,ship,bullets,aliens)
 	check_aliens_bottom(settings,stats,sb,screen,ship,bullets,aliens)
 	
@@ -206,7 +215,7 @@ def ship_hit(settings,stats,sb,screen,ship,bullets,aliens):
 		bullets.empty()
 		sb.prep_ships()
 		create_fleet(settings,screen,ship,aliens)
-		ship.center_ship()
+		ship.relocate_ship()
 		sleep(0.5)
 	else:
 		stats.game_active = False
