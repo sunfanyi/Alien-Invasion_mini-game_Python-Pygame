@@ -1,6 +1,7 @@
 import pygame
 import sys
 from time import sleep
+import random as rn
 
 from bullet import Bullet
 from alien import Alien
@@ -39,7 +40,7 @@ def start_game(settings,stats,sb,screen,ship,bullets,aliens):
 		#更新初始化后的数值
 		sb.prep_images()
 		ship.relocate_ship()
-		create_fleet(settings,screen,ship,aliens)
+		create_fleet(settings,stats,screen,ship,aliens)
 		
 		stats.game_active = True	
 		
@@ -90,9 +91,8 @@ def quit_game(stats):
 			
 		
 		
-def get_alien_number_x(settings,alien_width):
-	available_space_x = settings.screen_width - 2*alien_width
-	number_alien_x = int(available_space_x/(3*alien_width))
+def get_alien_number_x(settings,stats,alien_width):
+	number_alien_x = int(settings.screen_width/(3*alien_width))
 	return number_alien_x
 	
 def get_alien_number_row(settings,ship,alien_height):
@@ -103,14 +103,14 @@ def get_alien_number_row(settings,ship,alien_height):
 	
 def create_alien(settings,screen,aliens,alien_number_x,row_number):
 	alien = Alien(settings,screen)
-	alien.x = alien.rect.width + 3*alien.rect.width*alien_number_x
+	alien.x = rn.random()*(settings.screen_width-alien.rect.width)
 	alien.rect.x = alien.x
 	alien.rect.y = alien.rect.height + 2*alien.rect.height*row_number
 	aliens.add(alien)
 	
-def create_fleet(settings,screen,ship,aliens):
+def create_fleet(settings,stats,screen,ship,aliens):
 	alien = Alien(settings,screen)
-	alien_number_x = get_alien_number_x(settings,alien.rect.width)
+	alien_number_x = get_alien_number_x(settings,stats,alien.rect.width)
 	number_rows = get_alien_number_row(settings,ship,alien.rect.height)
 	for row_number in range(number_rows):
 		for No in range(alien_number_x):
@@ -194,7 +194,7 @@ def start_new_level(settings,stats,sb,screen,ship,bullets,aliens):
 	bullets.empty()
 	
 	ship.relocate_ship()
-	create_fleet(settings,screen,ship,aliens)
+	create_fleet(settings,stats,screen,ship,aliens)
 
 
 
@@ -218,7 +218,7 @@ def ship_hit(settings,stats,sb,screen,ship,bullets,aliens):
 		aliens.empty()
 		bullets.empty()
 		sb.prep_ships()
-		create_fleet(settings,screen,ship,aliens)
+		create_fleet(settings,stats,screen,ship,aliens)
 		ship.relocate_ship()
 		sleep(0.5)
 	else:

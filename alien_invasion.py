@@ -23,7 +23,7 @@ def run_game():
 	stats = GameStats(ai_settings)
 	play_button = Button(screen,'Play')
 	sb = ScoreBoard(ai_settings,stats,screen)
-	gf.create_fleet(ai_settings,screen,my_ship,aliens)
+	gf.create_fleet(ai_settings,stats,screen,my_ship,aliens)
 	
 	while True:
 		gf.check_event(ai_settings,stats,sb,screen,my_ship,bullets,
