@@ -103,7 +103,8 @@ def get_alien_number_row(settings,ship,alien_height):
 	
 def create_alien(settings,screen,aliens,alien_number_x,row_number):
 	alien = Alien(settings,screen)
-	alien.x = alien.rect.width + (rn.random()*(settings.screen_width - 3*alien.rect.width))
+	alien.x = alien.rect.width + (rn.random()*(settings.screen_width -
+		3*alien.rect.width))
 	alien.rect.x = alien.x
 	alien.y = alien.rect.height + 2*alien.rect.height*row_number
 	alien.rect.y = alien.y

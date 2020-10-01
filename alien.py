@@ -20,9 +20,13 @@ class Alien(Sprite):
 			self.alien_direction = 1
 		else:
 			self.alien_direction = -1
+			
+		self.alien_speed_factor_x = \
+			rn.uniform(settings.alien_min_speed_x,
+				settings.alien_max_speed_x)
 	
 	def update(self):
-		self.x += (self.settings.alien_speed_factor_x * 
+		self.x += (self.alien_speed_factor_x * 
 			self.alien_direction)
 		self.rect.x = self.x
 		self.y += self.settings.alien_speed_factor_y
