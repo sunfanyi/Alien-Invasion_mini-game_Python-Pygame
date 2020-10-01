@@ -105,7 +105,8 @@ def create_alien(settings,screen,aliens,alien_number_x,row_number):
 	alien = Alien(settings,screen)
 	alien.x = alien.rect.width + (rn.random()*(settings.screen_width - 3*alien.rect.width))
 	alien.rect.x = alien.x
-	alien.rect.y = alien.rect.height + 2*alien.rect.height*row_number
+	alien.y = alien.rect.height + 2*alien.rect.height*row_number
+	alien.rect.y = alien.y
 	aliens.add(alien)
 	
 def create_fleet(settings,stats,screen,ship,aliens):
@@ -118,22 +119,11 @@ def create_fleet(settings,stats,screen,ship,aliens):
 
 
 
-def check_fleet_edge(settings,aliens):
+def check_alien_edge(settings,aliens):
 	for alien in aliens.sprites():
 		if alien.check_edge():
-			change_fleet_direction(settings,aliens)
-			break
-			# 如果没有break，将会一直检查下去，持续运行change_direction，
-			# 	导致方向一直在改变，即x值基本不变，y值一直增大
-			
-def change_fleet_direction(settings,aliens):
-	settings.fleet_direction *= -1
-	for alien in aliens.sprites():
-		alien.rect.y += settings.fleet_drop_speed
-		
-		
-		
-		
+			alien.alien_direction *= -1
+
 		
 
 def update_screen(settings,stats,sb,screen,ship,bullets,aliens,
@@ -199,7 +189,7 @@ def start_new_level(settings,stats,sb,screen,ship,bullets,aliens):
 
 
 def update_aliens(settings,stats,sb,screen,ship,bullets,aliens):
-	check_fleet_edge(settings,aliens)
+	check_alien_edge(settings,aliens)
 	aliens.update()
 	#如果没有碰撞return None，如果有则return此alien
 	if pygame.sprite.spritecollideany(ship,aliens):
