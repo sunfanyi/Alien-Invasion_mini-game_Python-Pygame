@@ -13,7 +13,7 @@ class Button():
 		
 		self.rect = pygame.Rect(0,0,self.width,self.height)
 		self.rect.center = self.screen_rect.center
-		
+
 		self.prep_msg(msg)
 		
 	def prep_msg(self,msg):

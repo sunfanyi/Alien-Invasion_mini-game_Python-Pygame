@@ -92,7 +92,8 @@ def quit_game(stats):
 		
 		
 def get_alien_number_x(settings,stats,alien_width):
-	number_alien_x = int(settings.screen_width/(3*alien_width))
+	number_alien_x = int(settings.screen_width/(4*alien_width)) + \
+		stats.level
 	return number_alien_x
 	
 def get_alien_number_row(settings,ship,alien_height):

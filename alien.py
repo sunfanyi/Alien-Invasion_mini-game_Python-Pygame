@@ -24,12 +24,15 @@ class Alien(Sprite):
 		self.alien_speed_factor_x = \
 			rn.uniform(settings.alien_min_speed_x,
 				settings.alien_max_speed_x)
+		self.alien_speed_factor_y = \
+			rn.uniform(settings.alien_min_speed_y,
+				settings.alien_max_speed_y)
 	
 	def update(self):
 		self.x += (self.alien_speed_factor_x * 
 			self.alien_direction)
 		self.rect.x = self.x
-		self.y += self.settings.alien_speed_factor_y
+		self.y += self.alien_speed_factor_y
 		self.rect.y = self.y
 	
 	def check_edge(self):
