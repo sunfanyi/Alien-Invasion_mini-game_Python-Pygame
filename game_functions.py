@@ -163,7 +163,7 @@ def check_bullet_ailen_collisions(settings,stats,sb,screen,ship,bullets,
 		aliens):
 	# groupcollde返回一个dict，bullets和aliens对应key-value，
 	#	后面的True表示碰撞后消失，FALSE，True则代表子弹不会消失，有穿透能力
-	collisions = pygame.sprite.groupcollide(bullets,aliens,False,True)
+	collisions = pygame.sprite.groupcollide(bullets,aliens,True,True)
 	if collisions:
 		#len(collisions.values())一直＝1，所以for loop只会循环一次
 		for aliens in collisions.values():
@@ -200,9 +200,11 @@ def update_aliens(settings,stats,sb,screen,ship,bullets,aliens):
 	
 def check_aliens_bottom(settings,stats,sb,screen,ship,bullets,aliens):
 	for alien in aliens.sprites():
-		if alien.rect.bottom >= settings.screen_height:
-			ship_hit(settings,stats,sb,screen,ship,bullets,aliens)
-			break
+		if alien.rect.top >= settings.screen_height:
+			#当alien碰到屏幕底端也记为失败：
+			# ship_hit(settings,stats,sb,screen,ship,bullets,aliens)
+			aliens.remove(alien)
+			
 		
 def ship_hit(settings,stats,sb,screen,ship,bullets,aliens):
 	if stats.ship_left > 0:

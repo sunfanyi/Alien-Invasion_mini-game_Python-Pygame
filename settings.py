@@ -20,8 +20,8 @@ class Settings():
 		self.bullet_speed_factor = 3
 		self.alien_max_speed_x = 1.4
 		self.alien_min_speed_x = 0.6
-		self.alien_max_speed_y = 0.07
-		self.alien_min_speed_y = 0.03
+		self.alien_max_speed_y = 0.1
+		self.alien_min_speed_y = 0.05
 		self.alien_points = 50
 		
 	def increase_speed(self):
