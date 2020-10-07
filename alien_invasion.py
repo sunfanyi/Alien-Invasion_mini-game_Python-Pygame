@@ -9,6 +9,7 @@ from alien import Alien
 from game_stats import GameStats
 from button import Button
 from scoreboard import ScoreBoard
+from animation import ShipExplosion
 
 def run_game():
 	pygame.init()
@@ -23,6 +24,7 @@ def run_game():
 	stats = GameStats(ai_settings)
 	play_button = Button(screen,'Play')
 	sb = ScoreBoard(ai_settings,stats,screen)
+	ship_explosion = ShipExplosion(screen,my_ship)
 	gf.create_fleet(ai_settings,stats,screen,my_ship,aliens)
 	
 	while True:
@@ -34,9 +36,9 @@ def run_game():
 			gf.update_bullets(ai_settings,stats,sb,screen,my_ship,
 				bullets,aliens)
 			gf.update_aliens(ai_settings,stats,sb,screen,my_ship,
-				bullets,aliens)
+				bullets,aliens,ship_explosion)
 			
 		gf.update_screen(ai_settings,stats,sb,screen,my_ship,bullets,
-			aliens,play_button)
+			aliens,play_button,ship_explosion)
 		
 run_game()

@@ -129,7 +129,7 @@ def check_alien_edge(settings,aliens):
 		
 
 def update_screen(settings,stats,sb,screen,ship,bullets,aliens,
-		play_button):
+		play_button,ship_explosion):
 	screen.fill(settings.bg_color)
 	sb.show_score()
 	ship.blitme()
@@ -145,6 +145,9 @@ def update_screen(settings,stats,sb,screen,ship,bullets,aliens,
 	# 	所以只能用pygame.draw.rect(screen,color,rect)?
 	
 	if not stats.game_active:
+		#为防止爆炸在未开始游戏时被显示在屏幕最左上角：
+		if ship_explosion.rect.x != 0 and ship_explosion.rect.y != 0:
+			ship_explosion.blitme()
 		play_button.draw_button()
 		
 	pygame.display.flip()
@@ -190,12 +193,14 @@ def start_new_level(settings,stats,sb,screen,ship,bullets,aliens):
 
 
 
-def update_aliens(settings,stats,sb,screen,ship,bullets,aliens):
+def update_aliens(settings,stats,sb,screen,ship,bullets,aliens,
+	ship_explosion):
 	check_alien_edge(settings,aliens)
 	aliens.update()
 	#如果没有碰撞return None，如果有则return此alien
 	if pygame.sprite.spritecollideany(ship,aliens):
-		ship_hit(settings,stats,sb,screen,ship,bullets,aliens)
+		ship_hit(settings,stats,sb,screen,ship,bullets,aliens,
+			ship_explosion)
 	check_aliens_bottom(settings,stats,sb,screen,ship,bullets,aliens)
 	
 def check_aliens_bottom(settings,stats,sb,screen,ship,bullets,aliens):
@@ -206,16 +211,20 @@ def check_aliens_bottom(settings,stats,sb,screen,ship,bullets,aliens):
 			aliens.remove(alien)
 			
 		
-def ship_hit(settings,stats,sb,screen,ship,bullets,aliens):
+def ship_hit(settings,stats,sb,screen,ship,bullets,aliens,
+	ship_explosion):
+	ship_explosion.get_position()
+	ship_explosion.blitme()
+	pygame.display.flip()
 	if stats.ship_left > 0:
 		stats.ship_left -= 1
 		aliens.empty()
 		bullets.empty()
 		sb.prep_ships()
 		create_fleet(settings,stats,screen,ship,aliens)
-		ship.relocate_ship()
+		ship.relocate_ship()	
 		sleep(0.5)
 	else:
 		stats.game_active = False
 		pygame.mouse.set_visible(True)
-
+	
