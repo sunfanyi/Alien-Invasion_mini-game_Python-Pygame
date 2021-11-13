@@ -86,6 +86,7 @@ def quit_game(stats):
 	if stats.break_record == True:
 		with open('highest_score.txt','w') as file_object:
 			file_object.write(str(round(stats.highest_score,-1)))
+	pygame.quit()
 	sys.exit()
 			
 			
